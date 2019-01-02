@@ -69,8 +69,8 @@ def ALRA(X, k=None, n_iter=10):
     translate = -X_rk_mean * scale + X_mean
 
     scale_columns = ~np.isnan(X_std) & ~np.isnan(X_rk_std)
-    X_rank_k[scale_columns] *= scale
-    X_rank_k[scale_columns] += translate
+    X_rank_k[:, scale_columns] *= scale[scale_columns]
+    X_rank_k[:, scale_columns] += translate[scale_columns]
 
     # Values can become negative during rescaling, so we zero those out
     X_rank_k[X_rank_k < 0] = np.ma.masked
