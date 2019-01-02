@@ -28,7 +28,8 @@ def nonzero_mean(X, axis=0):
         counts = np.diff(X.indptr)
         sums = X.sum(axis=axis)
         sums = np.asarray(sums).ravel()
-        return sums / counts
+        with np.errstate(invalid="ignore"):
+            return sums / counts
 
     else:
         X = np.ma.masked_array(X, mask=X <= 0)
@@ -75,7 +76,8 @@ def nonzero_var(X, axis=0, ddof=0):
         counts = np.diff(X.indptr) - ddof
         sums = X.sum(axis=axis)
         sums = np.asarray(sums).ravel()
-        return sums / counts
+        with np.errstate(invalid="ignore"):
+            return sums / counts
 
     else:
         X = np.ma.masked_array(X, mask=X <= 0)
